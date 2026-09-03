@@ -59,7 +59,7 @@ Notes:
 - Search box and copy button deferred to M5.
 
 ## M5: Live search and copy-to-clipboard
-Status: [ ] todo
+Status: [~] in progress
 Goal: Wire the search box to the API with debounced queries as the user types, and add a one-click copy button on every snippet.
 Acceptance:
 - [ ] Typing in the search box filters results without pressing Enter (debounced fetch to `/api/snippets?q=`)
