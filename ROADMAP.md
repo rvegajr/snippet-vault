@@ -72,14 +72,15 @@ Notes:
 - Separate empty states for no snippets vs no search matches.
 
 ## M6: Polish and release readiness
-Status: [~] in progress
+Status: [x] done
 Goal: Harden error states, finalize README, and verify the full app from a fresh clone.
 Acceptance:
-- [ ] `README.md` includes: description, prerequisites (Node 20+), install, dev, build, test, and lint commands, plus the example workflow from SPEC.md
-- [ ] API returns structured `{ "error": "..." }` for validation failures; UI displays user-visible error messages
-- [ ] Empty search with no snippets shows a helpful empty state (not a blank page)
-- [ ] Fresh-clone verification passes: `git clone … && npm install && npm run lint && npm run typecheck && npm test && npm run build && npm run dev` — then create, search, and copy a snippet manually
-- [ ] All quality-bar commands from SPEC.md §7 pass
+- [x] `README.md` includes: description, prerequisites (Node 20+), install, dev, build, test, and lint commands, plus the example workflow from SPEC.md
+- [x] API returns structured `{ "error": "..." }` for validation failures; UI displays user-visible error messages
+- [x] Empty search with no snippets shows a helpful empty state (not a blank page)
+- [x] Fresh-clone verification passes: `git clone … && npm install && npm run lint && npm run typecheck && npm test && npm run build && npm run dev` — then create, search, and copy a snippet manually
+- [x] All quality-bar commands from SPEC.md §7 pass
 Notes:
 - This is the last milestone before v1 is considered complete.
 - Do not add nice-to-have features (syntax highlighting, gist import, keyboard nav, JSON export) — those remain post-v1.
+- Inline form/list error banners replace browser alerts for save, load, and delete failures.
