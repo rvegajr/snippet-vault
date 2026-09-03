@@ -1,20 +1,21 @@
 # Snippet Vault — Roadmap
 
 ## M1: Walking skeleton
-Status: [~] in progress
+Status: [x] done
 Goal: Scaffold the project with TypeScript, Fastify, Vitest, ESLint, and esbuild; prove the pipeline with one end-to-end test and a dev server that returns 200 on `/`.
 Acceptance:
-- [ ] `npm install` completes without errors
-- [ ] `npm run lint` passes
-- [ ] `npm run typecheck` passes
-- [ ] `npm test` passes with at least one real test (e.g. `GET /` returns 200 via Fastify `inject()`)
-- [ ] `npm run build` produces output in `dist/`
-- [ ] `npm run dev` starts the server and `GET http://localhost:3000/` returns 200
-- [ ] `README.md` documents clone, install, and `npm run dev` commands
+- [x] `npm install` completes without errors
+- [x] `npm run lint` passes
+- [x] `npm run typecheck` passes
+- [x] `npm test` passes with at least one real test (e.g. `GET /` returns 200 via Fastify `inject()`)
+- [x] `npm run build` produces output in `dist/`
+- [x] `npm run dev` starts the server and `GET http://localhost:3000/` returns 200
+- [x] `README.md` documents clone, install, and `npm run dev` commands
 Notes:
 - No snippet features yet. Serve a placeholder `index.html` ("Snippet Vault — coming soon").
 - Create `data/` directory logic stubbed but DB not required until M2.
 - Add `.gitignore` for `node_modules/`, `dist/`, and `data/`.
+- Server entry bundled with esbuild into a single `dist/server/index.js` (avoids missing module errors for `db/init.ts`).
 
 ## M2: SQLite schema and snippet CRUD API
 Status: [ ] todo
