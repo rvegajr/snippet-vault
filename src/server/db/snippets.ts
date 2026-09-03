@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import type { Db } from "./init.js";
+import { buildFtsQuery, type Db } from "./init.js";
 import {
   rowToSnippet,
   type CreateSnippetInput,
@@ -8,21 +8,40 @@ import {
   type UpdateSnippetInput,
 } from "../types/snippet.js";
 
-export function listSnippets(db: Db): Snippet[] {
+const SNIPPET_SELECT = `
+  SELECT s.id, s.title, s.language, s.body, s.tags, s.created_at, s.updated_at
+  FROM snippets s
+`;
+
+export function listSnippets(db: Db, query?: string): Snippet[] {
+  const trimmed = query?.trim();
+  if (!trimmed) {
+    const rows = db
+      .prepare(`${SNIPPET_SELECT} ORDER BY s.updated_at DESC`)
+      .all() as SnippetRow[];
+    return rows.map(rowToSnippet);
+  }
+
+  const ftsQuery = buildFtsQuery(trimmed);
+  if (!ftsQuery) {
+    return [];
+  }
+
   const rows = db
     .prepare(
-      "SELECT id, title, language, body, tags, created_at, updated_at FROM snippets ORDER BY updated_at DESC",
+      `${SNIPPET_SELECT}
+       JOIN snippets_fts ON s.id = snippets_fts.snippet_id
+       WHERE snippets_fts MATCH ?
+       ORDER BY s.updated_at DESC`,
     )
-    .all() as SnippetRow[];
+    .all(ftsQuery) as SnippetRow[];
 
   return rows.map(rowToSnippet);
 }
 
 export function getSnippetById(db: Db, id: string): Snippet | null {
   const row = db
-    .prepare(
-      "SELECT id, title, language, body, tags, created_at, updated_at FROM snippets WHERE id = ?",
-    )
+    .prepare(`${SNIPPET_SELECT} WHERE s.id = ?`)
     .get(id) as SnippetRow | undefined;
 
   return row ? rowToSnippet(row) : null;

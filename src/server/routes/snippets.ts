@@ -48,11 +48,19 @@ declare module "fastify" {
   }
 }
 
+const listQuerySchema = {
+  type: "object",
+  properties: {
+    q: { type: "string" },
+  },
+} as const;
+
 export async function snippetRoutes(app: FastifyInstance): Promise<void> {
   app.get(
     "/api/snippets",
     {
       schema: {
+        querystring: listQuerySchema,
         response: {
           200: {
             type: "object",
@@ -66,8 +74,9 @@ export async function snippetRoutes(app: FastifyInstance): Promise<void> {
         },
       },
     },
-    async () => {
-      return { snippets: snippetsDb.listSnippets(app.db) };
+    async (request) => {
+      const { q } = request.query as { q?: string };
+      return { snippets: snippetsDb.listSnippets(app.db, q) };
     },
   );
 

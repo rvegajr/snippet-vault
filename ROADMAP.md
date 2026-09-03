@@ -32,16 +32,17 @@ Notes:
 - FTS5 deferred to M3; list endpoint returns all snippets ordered by `updatedAt` desc.
 
 ## M3: Full-text search API
-Status: [~] in progress
+Status: [x] done
 Goal: Add FTS5-backed search so `GET /api/snippets?q=<term>` filters across title, body, and tags.
 Acceptance:
-- [ ] `npm test` includes search tests: matching title, body, and tag each return the snippet
-- [ ] Search with no match returns `{ "snippets": [] }`
-- [ ] `GET /api/snippets` with no `q` param returns all snippets ordered by `updatedAt` descending
-- [ ] Partial-word prefix search works (e.g. `q=ids` matches title "Extract ids from array")
+- [x] `npm test` includes search tests: matching title, body, and tag each return the snippet
+- [x] Search with no match returns `{ "snippets": [] }`
+- [x] `GET /api/snippets` with no `q` param returns all snippets ordered by `updatedAt` descending
+- [x] Partial-word prefix search works (e.g. `q=ids` matches title "Extract ids from array")
 Notes:
 - FTS5 virtual table + triggers to stay synced with `snippets`.
 - Tags stored as JSON array; flattened into FTS index on write.
+- Prefix search uses quoted FTS terms with trailing `*` (e.g. `"ids"*`).
 
 ## M4: Snippet list and create/edit UI
 Status: [ ] todo
