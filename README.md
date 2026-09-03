@@ -4,6 +4,8 @@ A local-first web app where a developer saves, tags, and instantly searches code
 
 Useful snippets often end up scattered across gists, Slack messages, and shell history. Snippet Vault gives you one place, one search box, results as you type, and copy with one click.
 
+**This v1 was built unattended** by a Cursor cloud agent from a one-page idea. Spec, six milestones, tests, and README were produced on a cloud VM; a human only reviewed the result and a Node 26 install fix. The walkthrough and driver kit: [rvegajr/cloud-agents](https://github.com/rvegajr/cloud-agents). Transcripts, cost, and per-milestone PRs: [docs/artifacts](docs/artifacts). Zip of `main`: [archive](https://github.com/rvegajr/snippet-vault/archive/refs/heads/main.zip).
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 20 through 26 (tested on 20, 22, and 26)

@@ -1,0 +1,349 @@
+{
+  "agentId": "bc-ea005c5a-d806-48d6-a791-45b85af0c301",
+  "repo": "https://github.com/rvegajr/snippet-vault",
+  "ref": "main",
+  "idea": "# Snippet Vault\n\n## One sentence\nA local-first web app where a developer saves, tags, and instantly searches code\nsnippets, running entirely on their own machine.\n\n## The problem\nUseful snippets end up scattered across gists, Slack messages, and shell history.\nFinding \"that jq one-liner from March\" takes longer than rewriting it. Solved\nfeels like: one place, one search box, results as I type, copy with one click.\n\n## Must have (v1)\n- Create, edit, delete a snippet: title, language, body, tags.\n- Full-text search across title, body, and tags, updating as the user types.\n- Copy-to-clipboard button on every snippet.\n- Data persists locally between restarts (SQLite file in the project directory).\n- Runs with one command after install; no accounts, no network required.\n\n## Nice to have (later)\n- Syntax highlighting.\n- Import from GitHub gists.\n- Keyboard-only navigation.\n- Export/import as JSON.\n\n## Shape\n- Single-user web app served from a local Node process; browser UI.\n- JSON HTTP API under `/api/snippets` so the UI and tests share one contract.\n- Keep the frontend dependency-light; server-rendered or a small vanilla/JSX\n  bundle is fine. No auth.\n\n## Example\nI run `npm run dev`, open localhost, paste a `jq` command, title it \"Extract ids\nfrom array\", tag it `jq shell`, save. Tomorrow I type \"ids\" in the search box; it\nappears as the first result while I'm still typing. I click Copy, paste into my\nterminal, done.",
+  "state": {
+    "phase": "done",
+    "iteration": 6,
+    "runIds": [
+      "run-bc5b49ab-5f87-4f31-80a4-bedbf3e9dc1b",
+      "run-e690fa91-cbe9-46d8-ad76-f0fc858eeddf",
+      "run-dbd4c668-93a7-4659-8d94-91a25d6bf295",
+      "run-e3c06d78-8214-4368-9d9b-8426e3a337f5",
+      "run-5634295c-de9b-4dcf-b025-6503e4319767",
+      "run-13a06b3c-d46d-40c6-832d-08e434806e09",
+      "run-61a1d573-dec9-4639-bc6f-cf987f6afc97",
+      "run-009d513d-6fcd-4a30-adf1-f19767f6f7e1"
+    ],
+    "history": [
+      {
+        "milestone_id": "M1",
+        "milestone_title": "Walking skeleton",
+        "completed": true,
+        "remaining": 5,
+        "blocked": false,
+        "blocked_reason": null,
+        "verification": [
+          {
+            "command": "npm install",
+            "passed": true
+          },
+          {
+            "command": "npm run lint",
+            "passed": true
+          },
+          {
+            "command": "npm run typecheck",
+            "passed": true
+          },
+          {
+            "command": "npm test",
+            "passed": true
+          },
+          {
+            "command": "npm run build",
+            "passed": true
+          },
+          {
+            "command": "npm run dev (GET http://localhost:3000/)",
+            "passed": true
+          }
+        ],
+        "commits": [
+          "chore(M1): mark walking skeleton in progress",
+          "feat(M1): walking skeleton with Fastify, Vitest, and esbuild"
+        ]
+      },
+      {
+        "milestone_id": "M2",
+        "milestone_title": "SQLite schema and snippet CRUD API",
+        "completed": true,
+        "remaining": 4,
+        "blocked": false,
+        "blocked_reason": null,
+        "verification": [
+          {
+            "command": "npm install",
+            "passed": true
+          },
+          {
+            "command": "npm run lint",
+            "passed": true
+          },
+          {
+            "command": "npm run typecheck",
+            "passed": true
+          },
+          {
+            "command": "npm test",
+            "passed": true
+          },
+          {
+            "command": "npm run build",
+            "passed": true
+          },
+          {
+            "command": "npm run dev (GET /api/snippets)",
+            "passed": true
+          }
+        ],
+        "commits": [
+          "chore(M2): mark snippet CRUD API in progress",
+          "feat(M2): add SQLite snippet CRUD API"
+        ]
+      },
+      {
+        "milestone_id": "M3",
+        "milestone_title": "Full-text search API",
+        "completed": true,
+        "remaining": 3,
+        "blocked": false,
+        "blocked_reason": null,
+        "verification": [
+          {
+            "command": "npm run lint",
+            "passed": true
+          },
+          {
+            "command": "npm run typecheck",
+            "passed": true
+          },
+          {
+            "command": "npm test",
+            "passed": true
+          },
+          {
+            "command": "npm run build",
+            "passed": true
+          }
+        ],
+        "commits": [
+          "chore(M3): mark full-text search API in progress",
+          "feat(M3): add FTS5 full-text search API"
+        ]
+      },
+      {
+        "milestone_id": "M4",
+        "milestone_title": "Snippet list and create/edit UI",
+        "completed": true,
+        "remaining": 2,
+        "blocked": false,
+        "blocked_reason": null,
+        "verification": [
+          {
+            "command": "npm run lint",
+            "passed": true
+          },
+          {
+            "command": "npm run typecheck",
+            "passed": true
+          },
+          {
+            "command": "npm test",
+            "passed": true
+          },
+          {
+            "command": "npm run build",
+            "passed": true
+          },
+          {
+            "command": "npm run dev (GET / returns UI with snippet-list)",
+            "passed": true
+          }
+        ],
+        "commits": [
+          "chore(M4): mark snippet list UI in progress",
+          "feat(M4): add snippet list and create/edit UI"
+        ]
+      },
+      {
+        "milestone_id": "M5",
+        "milestone_title": "Live search and copy-to-clipboard",
+        "completed": true,
+        "remaining": 1,
+        "blocked": false,
+        "blocked_reason": null,
+        "verification": [
+          {
+            "command": "npm run lint",
+            "passed": true
+          },
+          {
+            "command": "npm run typecheck",
+            "passed": true
+          },
+          {
+            "command": "npm test",
+            "passed": true
+          },
+          {
+            "command": "npm run build",
+            "passed": true
+          }
+        ],
+        "commits": [
+          "chore(M5): mark live search and copy in progress",
+          "feat(M5): add live search and copy-to-clipboard"
+        ]
+      },
+      {
+        "milestone_id": "M6",
+        "milestone_title": "Polish and release readiness",
+        "completed": true,
+        "remaining": 0,
+        "blocked": false,
+        "blocked_reason": null,
+        "verification": [
+          {
+            "command": "npm run lint",
+            "passed": true
+          },
+          {
+            "command": "npm run typecheck",
+            "passed": true
+          },
+          {
+            "command": "npm test",
+            "passed": true
+          },
+          {
+            "command": "npm run build",
+            "passed": true
+          },
+          {
+            "command": "npm run dev (create + search + validation API)",
+            "passed": true
+          }
+        ],
+        "commits": [
+          "chore(M6): mark polish and release readiness in progress",
+          "feat(M6): polish error states and finalize README for v1",
+          "chore(M6): mark polish and release readiness done"
+        ]
+      }
+    ],
+    "spec": {
+      "stack": "Node.js 20+ / TypeScript / Fastify / better-sqlite3 (FTS5) / vanilla TS client (esbuild) / Vitest",
+      "milestones": [
+        {
+          "id": "M1",
+          "title": "Walking skeleton"
+        },
+        {
+          "id": "M2",
+          "title": "SQLite schema and snippet CRUD API"
+        },
+        {
+          "id": "M3",
+          "title": "Full-text search API"
+        },
+        {
+          "id": "M4",
+          "title": "Snippet list and create/edit UI"
+        },
+        {
+          "id": "M5",
+          "title": "Live search and copy-to-clipboard"
+        },
+        {
+          "id": "M6",
+          "title": "Polish and release readiness"
+        }
+      ],
+      "open_questions_decided": [
+        "Frontend: vanilla TypeScript bundled with esbuild (no React/Vue) to keep dependencies minimal per operator constraint",
+        "Search engine: SQLite FTS5 with triggers (not LIKE queries) for instant as-you-type results",
+        "Snippet IDs: UUID v4 generated server-side",
+        "Tags storage: JSON array in SQLite column; comma-separated input in UI; flattened into FTS index",
+        "Database path: ./data/snippets.db (gitignored, created on first run)",
+        "Default port: 3000 (configurable via PORT env var)",
+        "Delete UX: browser confirm dialog before permanent removal",
+        "API validation: Fastify JSON Schema at route layer; 400/404/500 error shapes defined in SPEC"
+      ]
+    },
+    "finish": {
+      "complete": true,
+      "summary": "Snippet Vault v1 passes fresh-clone install, full quality bar, and all seven core user flows; README updated with testing and known gaps.",
+      "user_flows": [
+        {
+          "flow": "Start the app with one command, open localhost, see empty snippet list",
+          "verified": true,
+          "evidence": "Fresh clone on PORT=3002: GET / → 200, GET /api/snippets → {\"snippets\":[]}, HTML contains 'No snippets yet'"
+        },
+        {
+          "flow": "Create a snippet with title, language, body, tags",
+          "verified": true,
+          "evidence": "POST /api/snippets returned 201 with UUID id for 'Extract ids from array'"
+        },
+        {
+          "flow": "Edit an existing snippet and save changes",
+          "verified": true,
+          "evidence": "PUT /api/snippets/:id updated title to 'Extract ids (edited)' with new updatedAt"
+        },
+        {
+          "flow": "Delete a snippet with confirmation",
+          "verified": true,
+          "evidence": "DELETE returned 204 then GET returned 404; UI uses window.confirm() in src/client/main.ts"
+        },
+        {
+          "flow": "Search box filters results in real time across title, body, tags",
+          "verified": true,
+          "evidence": "GET /api/snippets?q=ids returned 1 matching snippet; empty query returns all"
+        },
+        {
+          "flow": "Copy button copies snippet body to clipboard",
+          "verified": true,
+          "evidence": "dist/client/main.js contains navigator.clipboard.writeText and Copy button; GET /api/snippets/:id returns body text"
+        },
+        {
+          "flow": "Snippets persist across server restart",
+          "verified": true,
+          "evidence": "Created 'Persist' snippet, killed server, restarted on PORT=3002, GET /api/snippets/:id returned title 'Persist'"
+        }
+      ],
+      "quality_bar": [
+        {
+          "command": "npm install",
+          "passed": true
+        },
+        {
+          "command": "npm run lint",
+          "passed": true
+        },
+        {
+          "command": "npm run typecheck",
+          "passed": true
+        },
+        {
+          "command": "npm test",
+          "passed": true
+        },
+        {
+          "command": "npm run build",
+          "passed": true
+        },
+        {
+          "command": "npm run dev",
+          "passed": true
+        }
+      ],
+      "how_to_run": [
+        "git clone https://github.com/rvegajr/snippet-vault.git",
+        "cd snippet-vault",
+        "npm install",
+        "npm run dev"
+      ],
+      "known_gaps": [
+        "No syntax highlighting",
+        "No GitHub gist import or JSON export/import",
+        "No keyboard-only navigation shortcuts",
+        "Copy requires browser Clipboard API (localhost works)",
+        "Desktop browser UI only",
+        "Feature branches not yet merged to main"
+      ]
+    },
+    "stopReason": "complete"
+  },
+  "updatedAt": "2026-09-03T02:58:20.766Z"
+}
