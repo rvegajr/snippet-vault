@@ -32,7 +32,7 @@ Notes:
 - FTS5 deferred to M3; list endpoint returns all snippets ordered by `updatedAt` desc.
 
 ## M3: Full-text search API
-Status: [ ] todo
+Status: [~] in progress
 Goal: Add FTS5-backed search so `GET /api/snippets?q=<term>` filters across title, body, and tags.
 Acceptance:
 - [ ] `npm test` includes search tests: matching title, body, and tag each return the snippet
