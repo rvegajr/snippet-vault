@@ -12,6 +12,8 @@ interface SnippetsResponse {
   snippets: Snippet[];
 }
 
+const SEARCH_DEBOUNCE_MS = 200;
+
 const form = document.getElementById("snippet-form") as HTMLFormElement;
 const formTitle = document.getElementById("form-title") as HTMLHeadingElement;
 const snippetIdInput = document.getElementById("snippet-id") as HTMLInputElement;
@@ -21,8 +23,14 @@ const bodyInput = document.getElementById("body") as HTMLTextAreaElement;
 const tagsInput = document.getElementById("tags") as HTMLInputElement;
 const saveBtn = document.getElementById("save-btn") as HTMLButtonElement;
 const cancelBtn = document.getElementById("cancel-btn") as HTMLButtonElement;
+const searchInput = document.getElementById("search") as HTMLInputElement;
 const snippetList = document.getElementById("snippet-list") as HTMLDivElement;
 const emptyState = document.getElementById("empty-state") as HTMLParagraphElement;
+const noResultsState = document.getElementById(
+  "no-results-state",
+) as HTMLParagraphElement;
+
+let searchDebounceTimer: ReturnType<typeof setTimeout> | undefined;
 
 function parseTags(raw: string): string[] {
   return raw
@@ -33,6 +41,11 @@ function parseTags(raw: string): string[] {
 
 function formatTags(tags: string[]): string {
   return tags.join(", ");
+}
+
+function getSearchQuery(): string | undefined {
+  const query = searchInput.value.trim();
+  return query || undefined;
 }
 
 function resetForm(): void {
@@ -55,13 +68,34 @@ function fillForm(snippet: Snippet): void {
   form.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-async function fetchSnippets(): Promise<Snippet[]> {
-  const response = await fetch("/api/snippets");
+async function fetchSnippets(query?: string): Promise<Snippet[]> {
+  const url = query
+    ? `/api/snippets?q=${encodeURIComponent(query)}`
+    : "/api/snippets";
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error("Failed to load snippets");
   }
   const data = (await response.json()) as SnippetsResponse;
   return data.snippets;
+}
+
+async function copySnippetBody(
+  button: HTMLButtonElement,
+  body: string,
+): Promise<void> {
+  try {
+    await navigator.clipboard.writeText(body);
+    const originalText = button.textContent ?? "Copy";
+    button.textContent = "Copied!";
+    button.disabled = true;
+    window.setTimeout(() => {
+      button.textContent = originalText;
+      button.disabled = false;
+    }, 1500);
+  } catch {
+    window.alert("Could not copy to clipboard");
+  }
 }
 
 function renderSnippetCard(snippet: Snippet): HTMLElement {
@@ -103,6 +137,15 @@ function renderSnippetCard(snippet: Snippet): HTMLElement {
   const actions = document.createElement("div");
   actions.className = "snippet-actions";
 
+  const copyBtn = document.createElement("button");
+  copyBtn.type = "button";
+  copyBtn.className = "copy-btn";
+  copyBtn.textContent = "Copy";
+  copyBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    void copySnippetBody(copyBtn, snippet.body);
+  });
+
   const editBtn = document.createElement("button");
   editBtn.type = "button";
   editBtn.className = "secondary";
@@ -139,6 +182,7 @@ function renderSnippetCard(snippet: Snippet): HTMLElement {
     await renderSnippets();
   });
 
+  actions.appendChild(copyBtn);
   actions.appendChild(editBtn);
   actions.appendChild(deleteBtn);
 
@@ -153,19 +197,45 @@ function renderSnippetCard(snippet: Snippet): HTMLElement {
   return card;
 }
 
-async function renderSnippets(): Promise<void> {
-  const snippets = await fetchSnippets();
-  snippetList.replaceChildren();
+function updateEmptyStates(snippets: Snippet[], query?: string): void {
+  const isSearching = Boolean(query);
 
-  if (snippets.length === 0) {
-    emptyState.hidden = false;
+  if (snippets.length > 0) {
+    emptyState.hidden = true;
+    noResultsState.hidden = true;
     return;
   }
 
-  emptyState.hidden = true;
+  if (isSearching) {
+    emptyState.hidden = true;
+    noResultsState.hidden = false;
+    return;
+  }
+
+  emptyState.hidden = false;
+  noResultsState.hidden = true;
+}
+
+async function renderSnippets(): Promise<void> {
+  const query = getSearchQuery();
+  const snippets = await fetchSnippets(query);
+  snippetList.replaceChildren();
+
+  updateEmptyStates(snippets, query);
+
   for (const snippet of snippets) {
     snippetList.appendChild(renderSnippetCard(snippet));
   }
+}
+
+function scheduleSearch(): void {
+  if (searchDebounceTimer) {
+    clearTimeout(searchDebounceTimer);
+  }
+
+  searchDebounceTimer = setTimeout(() => {
+    void renderSnippets();
+  }, SEARCH_DEBOUNCE_MS);
 }
 
 form.addEventListener("submit", async (event) => {
@@ -199,6 +269,10 @@ form.addEventListener("submit", async (event) => {
 
 cancelBtn.addEventListener("click", () => {
   resetForm();
+});
+
+searchInput.addEventListener("input", () => {
+  scheduleSearch();
 });
 
 renderSnippets().catch(() => {

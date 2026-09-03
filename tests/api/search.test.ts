@@ -25,7 +25,7 @@ async function seedSnippets(app: Awaited<ReturnType<typeof createTestApp>>["app"
   });
 }
 
-describe("GET /api/snippets?q=", () => {
+describe("GET /api/snippets?q= (UI search contract)", () => {
   let app: Awaited<ReturnType<typeof createTestApp>>["app"];
 
   beforeEach(async () => {

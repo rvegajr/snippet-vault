@@ -59,16 +59,17 @@ Notes:
 - Search box and copy button deferred to M5.
 
 ## M5: Live search and copy-to-clipboard
-Status: [~] in progress
+Status: [x] done
 Goal: Wire the search box to the API with debounced queries as the user types, and add a one-click copy button on every snippet.
 Acceptance:
-- [ ] Typing in the search box filters results without pressing Enter (debounced fetch to `/api/snippets?q=`)
-- [ ] Clearing the search box restores the full snippet list
-- [ ] Each snippet card has a Copy button that copies the snippet `body` to the clipboard
-- [ ] `npm test` includes at least one test covering search API behavior used by the UI
+- [x] Typing in the search box filters results without pressing Enter (debounced fetch to `/api/snippets?q=`)
+- [x] Clearing the search box restores the full snippet list
+- [x] Each snippet card has a Copy button that copies the snippet `body` to the clipboard
+- [x] `npm test` includes at least one test covering search API behavior used by the UI
 Notes:
 - Use `navigator.clipboard.writeText`; show brief "Copied!" feedback on success.
 - Debounce interval: ~200 ms.
+- Separate empty states for no snippets vs no search matches.
 
 ## M6: Polish and release readiness
 Status: [ ] todo

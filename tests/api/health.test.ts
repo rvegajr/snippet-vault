@@ -19,6 +19,7 @@ describe("GET /", () => {
     expect(response.body).toContain("Snippet Vault");
     expect(response.body).toContain("Saved snippets");
     expect(response.body).toContain("snippet-list");
+    expect(response.body).toContain('id="search"');
 
     await app.close();
   });
