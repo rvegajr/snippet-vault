@@ -1,7 +1,7 @@
 # Snippet Vault — Roadmap
 
 ## M1: Walking skeleton
-Status: [ ] todo
+Status: [~] in progress
 Goal: Scaffold the project with TypeScript, Fastify, Vitest, ESLint, and esbuild; prove the pipeline with one end-to-end test and a dev server that returns 200 on `/`.
 Acceptance:
 - [ ] `npm install` completes without errors
