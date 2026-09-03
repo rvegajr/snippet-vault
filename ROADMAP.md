@@ -72,7 +72,7 @@ Notes:
 - Separate empty states for no snippets vs no search matches.
 
 ## M6: Polish and release readiness
-Status: [ ] todo
+Status: [~] in progress
 Goal: Harden error states, finalize README, and verify the full app from a fresh clone.
 Acceptance:
 - [ ] `README.md` includes: description, prerequisites (Node 20+), install, dev, build, test, and lint commands, plus the example workflow from SPEC.md
