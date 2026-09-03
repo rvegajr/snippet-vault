@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snippet Vault</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <h1>Snippet Vault</h1>
+        <p class="subtitle">Save and find code snippets locally</p>
+      </header>
+
+      <section class="panel form-panel" id="form-panel">
+        <h2 id="form-title">New snippet</h2>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <form id="snippet-form">
+          <input type="hidden" id="snippet-id" value="" />
+
+          <label class="field">
+            <span>Title</span>
+            <input type="text" id="title" required maxlength="200" />
+          </label>
+
+          <label class="field">
+            <span>Language</span>
+            <input
+              type="text"
+              id="language"
+              maxlength="50"
+              placeholder="e.g. javascript, shell, jq"
+            />
+          </label>
+
+          <label class="field">
+            <span>Body</span>
+            <textarea id="body" required rows="6"></textarea>
+          </label>
+
+          <label class="field">
+            <span>Tags</span>
+            <input
+              type="text"
+              id="tags"
+              placeholder="comma-separated, e.g. jq, shell"
+            />
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" id="save-btn">Save snippet</button>
+            <button type="button" id="cancel-btn" class="secondary" hidden>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel list-panel">
+        <div class="list-header">
+          <h2>Saved snippets</h2>
+          <label class="search-field">
+            <span class="visually-hidden">Search snippets</span>
+            <input
+              type="search"
+              id="search"
+              placeholder="Search title, body, tags…"
+              autocomplete="off"
+            />
+          </label>
+        </div>
+        <p id="list-error" class="form-error" role="alert" hidden></p>
+        <div id="snippet-list" class="snippet-list"></div>
+        <p id="empty-state" class="empty-state" hidden>
+          No snippets yet. Create your first one above.
+        </p>
+        <p id="no-results-state" class="empty-state" hidden>
+          No snippets match your search.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
