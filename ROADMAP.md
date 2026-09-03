@@ -18,17 +18,18 @@ Notes:
 - Server entry bundled with esbuild into a single `dist/server/index.js` (avoids missing module errors for `db/init.ts`).
 
 ## M2: SQLite schema and snippet CRUD API
-Status: [~] in progress
+Status: [x] done
 Goal: Persist snippets in `./data/snippets.db` and expose full create, read, update, delete via `/api/snippets`.
 Acceptance:
-- [ ] `npm test` includes API tests for POST, GET (list + by id), PUT, and DELETE on `/api/snippets`
-- [ ] Creating a snippet via `POST /api/snippets` returns `201` with `id`, `createdAt`, and `updatedAt`
-- [ ] `GET /api/snippets/:id` returns `404` for unknown ids
-- [ ] Deleting a snippet returns `204`; subsequent GET returns `404`
-- [ ] Restarting the server after a create still returns the snippet (persistence verified in test or manual check)
+- [x] `npm test` includes API tests for POST, GET (list + by id), PUT, and DELETE on `/api/snippets`
+- [x] Creating a snippet via `POST /api/snippets` returns `201` with `id`, `createdAt`, and `updatedAt`
+- [x] `GET /api/snippets/:id` returns `404` for unknown ids
+- [x] Deleting a snippet returns `204`; subsequent GET returns `404`
+- [x] Restarting the server after a create still returns the snippet (persistence verified in test or manual check)
 Notes:
 - `snippets` table and UUID generation live in `src/server/db/`.
 - Validate required fields (`title`, `body`); return `400` on invalid input.
+- FTS5 deferred to M3; list endpoint returns all snippets ordered by `updatedAt` desc.
 
 ## M3: Full-text search API
 Status: [ ] todo
