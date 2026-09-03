@@ -6,7 +6,7 @@ Useful snippets often end up scattered across gists, Slack messages, and shell h
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) 20 or later
+- [Node.js](https://nodejs.org/) 20 through 26 (tested on 20, 22, and 26)
 - npm (included with Node.js)
 
 ## Getting started
