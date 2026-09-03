@@ -45,7 +45,7 @@ Notes:
 - Prefix search uses quoted FTS terms with trailing `*` (e.g. `"ids"*`).
 
 ## M4: Snippet list and create/edit UI
-Status: [ ] todo
+Status: [~] in progress
 Goal: Build the browser UI to list snippets, create new ones, edit existing ones, and delete with confirmation.
 Acceptance:
 - [ ] `npm run build && npm run dev` serves a page at `/` showing the snippet list (empty state when none)
