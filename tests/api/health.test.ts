@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientRoot = path.join(__dirname, "..", "..", "src", "client");
 
 describe("GET /", () => {
-  it("returns 200 with the placeholder page", async () => {
+  it("returns 200 with the snippet vault UI", async () => {
     const app = await buildApp({ clientRoot });
 
     const response = await app.inject({
@@ -17,7 +17,8 @@ describe("GET /", () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toContain("Snippet Vault");
-    expect(response.body).toContain("coming soon");
+    expect(response.body).toContain("Saved snippets");
+    expect(response.body).toContain("snippet-list");
 
     await app.close();
   });

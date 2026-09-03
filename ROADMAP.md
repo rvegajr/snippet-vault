@@ -45,17 +45,18 @@ Notes:
 - Prefix search uses quoted FTS terms with trailing `*` (e.g. `"ids"*`).
 
 ## M4: Snippet list and create/edit UI
-Status: [~] in progress
+Status: [x] done
 Goal: Build the browser UI to list snippets, create new ones, edit existing ones, and delete with confirmation.
 Acceptance:
-- [ ] `npm run build && npm run dev` serves a page at `/` showing the snippet list (empty state when none)
-- [ ] User can submit a form with title, language, body, and tags; new snippet appears in the list without manual refresh
-- [ ] Clicking a snippet opens edit mode; saving updates the list item
-- [ ] Delete button prompts for confirmation, then removes the snippet from the list
-- [ ] `npm test` still passes (no regressions)
+- [x] `npm run build && npm run dev` serves a page at `/` showing the snippet list (empty state when none)
+- [x] User can submit a form with title, language, body, and tags; new snippet appears in the list without manual refresh
+- [x] Clicking a snippet opens edit mode; saving updates the list item
+- [x] Delete button prompts for confirmation, then removes the snippet from the list
+- [x] `npm test` still passes (no regressions)
 Notes:
 - Vanilla TS in `src/client/main.ts`; no frontend framework.
 - Tags input: comma-separated string converted to array before POST/PUT.
+- Search box and copy button deferred to M5.
 
 ## M5: Live search and copy-to-clipboard
 Status: [ ] todo
