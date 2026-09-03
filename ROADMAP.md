@@ -18,7 +18,7 @@ Notes:
 - Server entry bundled with esbuild into a single `dist/server/index.js` (avoids missing module errors for `db/init.ts`).
 
 ## M2: SQLite schema and snippet CRUD API
-Status: [ ] todo
+Status: [~] in progress
 Goal: Persist snippets in `./data/snippets.db` and expose full create, read, update, delete via `/api/snippets`.
 Acceptance:
 - [ ] `npm test` includes API tests for POST, GET (list + by id), PUT, and DELETE on `/api/snippets`
