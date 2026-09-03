@@ -43,7 +43,9 @@ describe("POST /api/snippets", () => {
     });
 
     expect(response.statusCode).toBe(400);
-    expect(response.json()).toHaveProperty("error");
+    expect(response.json()).toEqual({
+      error: expect.stringMatching(/title/i),
+    });
 
     await app.close();
   });
@@ -58,7 +60,9 @@ describe("POST /api/snippets", () => {
     });
 
     expect(response.statusCode).toBe(400);
-    expect(response.json()).toHaveProperty("error");
+    expect(response.json()).toEqual({
+      error: expect.stringMatching(/body/i),
+    });
 
     await app.close();
   });

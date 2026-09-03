@@ -20,6 +20,9 @@ describe("GET /", () => {
     expect(response.body).toContain("Saved snippets");
     expect(response.body).toContain("snippet-list");
     expect(response.body).toContain('id="search"');
+    expect(response.body).toContain("empty-state");
+    expect(response.body).toContain("No snippets yet");
+    expect(response.body).toContain("form-error");
 
     await app.close();
   });

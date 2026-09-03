@@ -12,6 +12,10 @@ interface SnippetsResponse {
   snippets: Snippet[];
 }
 
+interface ApiErrorResponse {
+  error: string;
+}
+
 const SEARCH_DEBOUNCE_MS = 200;
 
 const form = document.getElementById("snippet-form") as HTMLFormElement;
@@ -29,6 +33,8 @@ const emptyState = document.getElementById("empty-state") as HTMLParagraphElemen
 const noResultsState = document.getElementById(
   "no-results-state",
 ) as HTMLParagraphElement;
+const formError = document.getElementById("form-error") as HTMLParagraphElement;
+const listError = document.getElementById("list-error") as HTMLParagraphElement;
 
 let searchDebounceTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -48,9 +54,42 @@ function getSearchQuery(): string | undefined {
   return query || undefined;
 }
 
+function showFormError(message: string): void {
+  formError.textContent = message;
+  formError.hidden = false;
+}
+
+function clearFormError(): void {
+  formError.textContent = "";
+  formError.hidden = true;
+}
+
+function showListError(message: string): void {
+  listError.textContent = message;
+  listError.hidden = false;
+}
+
+function clearListError(): void {
+  listError.textContent = "";
+  listError.hidden = true;
+}
+
+async function readApiError(response: Response, fallback: string): Promise<string> {
+  try {
+    const data = (await response.json()) as Partial<ApiErrorResponse>;
+    if (typeof data.error === "string" && data.error.length > 0) {
+      return data.error;
+    }
+  } catch {
+    // Response body was not JSON.
+  }
+  return fallback;
+}
+
 function resetForm(): void {
   snippetIdInput.value = "";
   form.reset();
+  clearFormError();
   formTitle.textContent = "New snippet";
   saveBtn.textContent = "Save snippet";
   cancelBtn.hidden = true;
@@ -94,7 +133,7 @@ async function copySnippetBody(
       button.disabled = false;
     }, 1500);
   } catch {
-    window.alert("Could not copy to clipboard");
+    showListError("Could not copy to clipboard.");
   }
 }
 
@@ -172,7 +211,7 @@ function renderSnippetCard(snippet: Snippet): HTMLElement {
       method: "DELETE",
     });
     if (!response.ok && response.status !== 204) {
-      window.alert("Failed to delete snippet");
+      showListError(await readApiError(response, "Failed to delete snippet."));
       return;
     }
 
@@ -218,13 +257,21 @@ function updateEmptyStates(snippets: Snippet[], query?: string): void {
 
 async function renderSnippets(): Promise<void> {
   const query = getSearchQuery();
-  const snippets = await fetchSnippets(query);
-  snippetList.replaceChildren();
+  clearListError();
 
-  updateEmptyStates(snippets, query);
+  try {
+    const snippets = await fetchSnippets(query);
+    snippetList.replaceChildren();
+    updateEmptyStates(snippets, query);
 
-  for (const snippet of snippets) {
-    snippetList.appendChild(renderSnippetCard(snippet));
+    for (const snippet of snippets) {
+      snippetList.appendChild(renderSnippetCard(snippet));
+    }
+  } catch {
+    snippetList.replaceChildren();
+    emptyState.hidden = true;
+    noResultsState.hidden = true;
+    showListError("Could not load snippets. Check that the server is running.");
   }
 }
 
@@ -240,6 +287,7 @@ function scheduleSearch(): void {
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  clearFormError();
 
   const payload = {
     title: titleInput.value.trim(),
@@ -259,7 +307,7 @@ form.addEventListener("submit", async (event) => {
   );
 
   if (!response.ok) {
-    window.alert("Failed to save snippet");
+    showFormError(await readApiError(response, "Failed to save snippet."));
     return;
   }
 
@@ -275,7 +323,4 @@ searchInput.addEventListener("input", () => {
   scheduleSearch();
 });
 
-renderSnippets().catch(() => {
-  emptyState.hidden = false;
-  emptyState.textContent = "Could not load snippets.";
-});
+renderSnippets();

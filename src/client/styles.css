@@ -71,6 +71,16 @@ body {
   border: 0;
 }
 
+.form-error {
+  margin: 0 0 0.875rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.5rem;
+  background: #450a0a;
+  border: 1px solid #b91c1c;
+  color: #fecaca;
+  font-size: 0.875rem;
+}
+
 .field {
   display: block;
   margin-bottom: 0.875rem;

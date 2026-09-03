@@ -7,6 +7,37 @@ import { snippetRoutes } from "./routes/snippets.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+function formatValidationError(error: object): string {
+  if (
+    "validation" in error &&
+    Array.isArray(error.validation) &&
+    error.validation.length > 0
+  ) {
+    const firstIssue = error.validation[0] as {
+      instancePath?: string;
+      params?: { missingProperty?: string };
+      message?: string;
+    };
+
+    const field = firstIssue.instancePath?.replace(/^\//, "");
+    if (field === "title" || firstIssue.params?.missingProperty === "title") {
+      return "Title is required.";
+    }
+    if (field === "body" || firstIssue.params?.missingProperty === "body") {
+      return "Body is required.";
+    }
+    if (firstIssue.message) {
+      return firstIssue.message;
+    }
+  }
+
+  if ("message" in error && typeof error.message === "string") {
+    return error.message;
+  }
+
+  return "Validation error";
+}
+
 export interface AppOptions {
   clientRoot?: string;
   dbPath?: string;
@@ -34,10 +65,7 @@ export async function buildApp(options: AppOptions = {}) {
       "validation" in error &&
       error.validation
     ) {
-      const message =
-        "message" in error && typeof error.message === "string"
-          ? error.message
-          : "Validation error";
+      const message = formatValidationError(error);
       return reply.status(400).send({ error: message });
     }
 
