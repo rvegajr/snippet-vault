@@ -42,6 +42,17 @@ Data is stored locally in `./data/snippets.db` and persists between restarts.
 
 Set a custom port with `PORT=4000 npm run dev`.
 
+## Testing
+
+From the project root after `npm install`:
+
+```bash
+npm run lint       # ESLint
+npm run typecheck  # TypeScript
+npm test           # Vitest (19 API/integration tests)
+npm run build      # Compile to dist/
+```
+
 ## API
 
 JSON endpoints under `/api/snippets`:
@@ -55,6 +66,16 @@ JSON endpoints under `/api/snippets`:
 | `DELETE` | `/api/snippets/:id` | Delete a snippet |
 
 Validation errors return `400` with `{ "error": "message" }`.
+
+## Known gaps (v1)
+
+These are intentional non-goals for v1; see `SPEC.md` for the full list.
+
+- No syntax highlighting on snippet bodies
+- No GitHub gist import or JSON export/import
+- No keyboard-only navigation shortcuts
+- Copy uses the browser Clipboard API (works on `localhost`; may require a secure context elsewhere)
+- Desktop browser UI only; not optimized for mobile
 
 ## License
 
